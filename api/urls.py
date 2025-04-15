@@ -1,6 +1,6 @@
-
-from django.urls import path
+from django.urls import include
 
 urlpatterns = [
-    path('auth/', include('accounts.urls')),
+    path('auth/', include("accounts.urls")),
+    path('blog/', include("blog.urls")),
 ]

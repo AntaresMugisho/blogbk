@@ -37,9 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "accounts",
     "rest_framework",
-    "simplejwt",
+    "rest_framework_simplejwt",
+    "apps.accounts",
+    "apps.api",
+    "apps.blog",
     
 ]
 
@@ -104,6 +106,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = 'accounts.User'
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/

@@ -5,4 +5,9 @@ from rest_framework.response import Response
 
 class UploadFileView(APIView):
     def create():
-        return Response({"success": True}, status=200)
+        print(self.request.data)
+        
+        return Response({
+            "success": 1,
+            "file": "url_placeholder"
+        }, status=200)

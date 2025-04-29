@@ -16,7 +16,7 @@ from datetime import timedelta
 from utils import env
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -33,7 +33,7 @@ ALLOWED_HOSTS = env("ALLOWED_HOSTS", split=True)
 # Application definition
 
 INSTALLED_APPS = [
-    "corsheaders",
+    # "corsheaders",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -51,7 +51,8 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+    "core.middleware.cors.CorsMiddleware",
+    # 'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -149,11 +150,10 @@ SIMPLE_JWT = {
 
 # CORS_ALLOW_ALL_ORIGINS = True
 
-CORS_ALLOWED_ORIGINS = env("CORS_ALLOWED_ORIGINS", split=True)
+# CORS_ALLOWED_ORIGINS = env("CORS_ALLOWED_ORIGINS", split=True)
 
-CORS_ALLOWED_HEADERS = env("CORS_ALLOWED_HEADERS", split=True)
+# CORS_ALLOW_HEADERS = env("CORS_ALLOWED_HEADERS", split=True)
 
-CORS_ALLOW_CREDENTIALS = True
+# CORS_ALLOW_CREDENTIALS = True
 
 
-print(CORS_ALLOWED_HEADERS)

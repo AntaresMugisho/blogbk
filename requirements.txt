@@ -4,3 +4,4 @@ djangorestframework_simplejwt==5.5.0
 django-cors-headers==4.7.0
 pillow==11.2.1
 PyBlade==0.1.9
+python-dotenv==1.1.0

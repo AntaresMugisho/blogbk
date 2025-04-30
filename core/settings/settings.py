@@ -128,6 +128,12 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+STATIC_ROOT = "static"
+
+MEDIA_URL = "storage/"
+
+MEDIA_ROOT = "storage"
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
@@ -147,13 +153,3 @@ SIMPLE_JWT = {
 
     "AUTH_HEADER_TYPES": ("Bearer",)
 }
-
-# CORS_ALLOW_ALL_ORIGINS = True
-
-# CORS_ALLOWED_ORIGINS = env("CORS_ALLOWED_ORIGINS", split=True)
-
-# CORS_ALLOW_HEADERS = env("CORS_ALLOWED_HEADERS", split=True)
-
-# CORS_ALLOW_CREDENTIALS = True
-
-

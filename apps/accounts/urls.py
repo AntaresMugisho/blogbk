@@ -12,5 +12,5 @@ urlpatterns = [
     path('me/', UserDetailView.as_view(), name='auth_user'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('token/invalidate', RevokeTokenView.as_view(), name='invalidate_token'),
+    path('token/invalidate/', RevokeTokenView.as_view(), name='invalidate_token'),
 ]

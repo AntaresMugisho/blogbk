@@ -10,7 +10,7 @@ class CorsMiddleware:
         response["Access-Control-Allow-Origin"] = "*"
         response["Access-Control-Allow-Headers"] = "Authorization, Content-Type, User-Agent, X-CsrfToken, X-Requested-With"
         response["Access-Control-Allow-Methods"] = "GET, POST, PUT, PATCH, DELETE, OPTIONS"
-        # response["Access-Control-Allow-Credentials"] = True
+        response["Access-Control-Allow-Credentials"] = "true"
 
         # For preflight requests
         if request.method == "OPTIONS":

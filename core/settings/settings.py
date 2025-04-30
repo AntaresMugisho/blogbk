@@ -30,6 +30,8 @@ DEBUG = env("DEBUG", as_bool=True)
 
 ALLOWED_HOSTS = env("ALLOWED_HOSTS", split=True)
 
+APPEND_SLASH = False
+
 # Application definition
 
 INSTALLED_APPS = [

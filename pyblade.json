@@ -2,5 +2,5 @@
     "name": "blogbk",
     "framework": "Django",
     "css_framework": "Tailwind CSS",
-    "pyblde_version": "0.1.9"
+    "pyblde_version": "0.2.0"
 }

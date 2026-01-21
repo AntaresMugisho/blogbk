@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 from datetime import timedelta
 
-from utils import env
+from antares_dotenv import env
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -26,16 +26,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env("DEBUG", as_bool=True)
+DEBUG = env("DEBUG", False)
 
-ALLOWED_HOSTS = env("ALLOWED_HOSTS", split=True)
+ALLOWED_HOSTS = env("ALLOWED_HOSTS")
 
 APPEND_SLASH = False
 
 # Application definition
 
 INSTALLED_APPS = [
-    # "corsheaders",
+    "corsheaders",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -53,8 +53,8 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    "core.middleware.cors.CorsMiddleware",
-    # 'corsheaders.middleware.CorsMiddleware',
+    # "core.middleware.cors.CorsMiddleware",
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',

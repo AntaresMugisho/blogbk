@@ -1,6 +1,8 @@
 {
     "name": "blogbk",
-    "framework": "Django",
-    "css_framework": "Tailwind CSS",
-    "pyblde_version": "0.2.0"
+    "core_dir": "blogbk",
+    "settings_path": "blogbk/settings.py",
+    "framework": "django",
+    "css_framework": "tailwind",
+    "pyblade_version": "0.2.0"
 }

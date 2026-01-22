@@ -1,11 +1,14 @@
-import os
+import json
 import logging
 
 from google.adk.sessions import DatabaseSessionService
 from google.adk.runners import Runner
+from google.adk.agents import RunConfig
+from google.adk.agents.run_config import StreamingMode
 from google.genai import types
 from uuid import uuid4
 
+from .chatbot.agent import root_agent as chatbot_agent
 
 APP_NAME = "ChatBot Fall Back"
 
@@ -63,8 +66,8 @@ async def call_agent_async(runner, session, parts):
     """Call the agent asynchronously with the user's input."""
 
     content = types.Content(role="user", parts=parts)
-    
-    final_response = None
+
+    final_response = '{"answer": "", "confidence": 0.0, "needs_human": True, "reason": "error"}'
 
     try:
         async for event in runner.run_async(
@@ -86,10 +89,25 @@ async def call_agent_async(runner, session, parts):
         "session_id": session.id, 
         "user_id": session.user_id, 
         "app_name": session.app_name,
-        "final_response": final_response
+        "final_response": json.loads(final_response)
     }
 
 
 def run_agent_live(runner, session, parts):
     """Call the agent synchronously with the user's input."""
     pass
+
+
+async def start_chat():
+    runner = Runner(agent=chatbot_agent)
+    
+    async for event in runner.run_async(
+        input="Write a story about Django developers.",
+    ):
+        if event.content:
+            print(event.content.parts[0].text, end="", flush=True)
+
+
+if __name__ == "__main__":
+    import asyncio
+    asyncio.run(start_chat())

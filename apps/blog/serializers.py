@@ -34,7 +34,7 @@ class UserPostInteractionSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserPostInteraction
         fields = ['id', 'user', 'user_username', 'post', 'post_title', 
-                 'interaction_type', 'created_at', 'updated_at']
+                 'type', 'created_at', 'updated_at']
         read_only_fields = ['user']
 
     def create(self, validated_data):
@@ -71,7 +71,7 @@ class PostSerializer(serializers.ModelSerializer):
         if request and request.user.is_authenticated:
             try:
                 interaction = obj.user_interactions.get(user=request.user)
-                return interaction.interaction_type
+                return interaction.type
             except UserPostInteraction.DoesNotExist:
                 return None
         return None

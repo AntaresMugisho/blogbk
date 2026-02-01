@@ -88,15 +88,15 @@ class PostViewSet(viewsets.ModelViewSet):
         interaction, created = UserPostInteraction.objects.get_or_create(
             user=request.user,
             post=post,
-            defaults={'interaction_type': UserPostInteraction.InteractionType.LIKE}
+            defaults={'type': UserPostInteraction.InteractionType.LIKE}
         )
         
         if not created:
-            if interaction.interaction_type == UserPostInteraction.InteractionType.LIKE:
+            if interaction.type == UserPostInteraction.InteractionType.LIKE:
                 interaction.delete()
                 return Response({'status': 'like removed'})
             else:
-                interaction.interaction_type = UserPostInteraction.InteractionType.LIKE
+                interaction.type = UserPostInteraction.InteractionType.LIKE
                 interaction.save()
         
         return Response({'status': 'liked'})
@@ -107,15 +107,15 @@ class PostViewSet(viewsets.ModelViewSet):
         interaction, created = UserPostInteraction.objects.get_or_create(
             user=request.user,
             post=post,
-            defaults={'interaction_type': UserPostInteraction.InteractionType.DISLIKE}
+            defaults={'type': UserPostInteraction.InteractionType.DISLIKE}
         )
         
         if not created:
-            if interaction.interaction_type == UserPostInteraction.InteractionType.DISLIKE:
+            if interaction.type == UserPostInteraction.InteractionType.DISLIKE:
                 interaction.delete()
                 return Response({'status': 'dislike removed'})
             else:
-                interaction.interaction_type = UserPostInteraction.InteractionType.DISLIKE
+                interaction.type = UserPostInteraction.InteractionType.DISLIKE
                 interaction.save()
         
         return Response({'status': 'disliked'})

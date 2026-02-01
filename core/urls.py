@@ -24,7 +24,7 @@ from .views import api_status
 urlpatterns = [
     path('administrator/', admin.site.urls),
     path("", api_status),
-    path("api/v1/", include("apps.api.urls")),
+    path("api/v1/", include("apps.api.urls", namespace="v1")),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

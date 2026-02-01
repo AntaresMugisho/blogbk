@@ -74,7 +74,7 @@ class Migration(migrations.Migration):
             name='UserPostInteraction',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('interaction_type', models.CharField(choices=[('like', 'Like'), ('dislike', 'Dislike')], max_length=7)),
+                ('type', models.CharField(choices=[('like', 'Like'), ('dislike', 'Dislike')], max_length=7)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
                 ('post', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='user_interactions', to='blog.post')),

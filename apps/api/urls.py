@@ -8,6 +8,7 @@ urlpatterns = [
     path('auth/', include("apps.accounts.urls")),
     path('blog/', include("apps.blog.urls")),
     path("bot/", include("apps.chat.urls")),
+    path("website/", include("apps.website.urls")),
     path("upload/", FileUploadAPIView.as_view()),
     path("contact/", ContactAPIView.as_view()),
 

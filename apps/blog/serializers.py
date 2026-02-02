@@ -1,4 +1,6 @@
 from rest_framework import serializers
+from django.utils.text import slugify
+
 from .models import Post, Tag, Comment, Category, UserPostInteraction
 
 class TagSerializer(serializers.ModelSerializer):
@@ -42,7 +44,10 @@ class UserPostInteractionSerializer(serializers.ModelSerializer):
         return super().create(validated_data)
 
 class PostSerializer(serializers.ModelSerializer):
-    tags = TagSerializer(many=True, required=False)
+    tags = serializers.ListField(
+        child=serializers.CharField(),
+        write_only=True
+    )
     category = CategorySerializer(read_only=True)
     category_id = serializers.PrimaryKeyRelatedField(
         queryset=Category.objects.all(),
@@ -82,20 +87,56 @@ class PostSerializer(serializers.ModelSerializer):
         post = super().create(validated_data)
         
         # Handle tags
-        for tag_data in tags_data:
-            tag, _ = Tag.objects.get_or_create(**tag_data)
-            post.tags.add(tag)
+        tag_instances = []
+        for tag_title in tags_data:
+            slug = slugify(tag_title)
+            tag, _ = Tag.objects.get_or_create(
+                slug=slug,
+                defaults={"name": tag_title}
+            )
+            tag_instances.append(tag)
+
+        post.tags.set(tag_instances)
         
         return post
 
     def update(self, instance, validated_data):
-        tags_data = validated_data.pop('tags', [])
+        tags_data = validated_data.pop('tags', None)
         post = super().update(instance, validated_data)
         
-        if tags_data:
-            post.tags.clear()
-            for tag_data in tags_data:
-                tag, _ = Tag.objects.get_or_create(**tag_data)
-                post.tags.add(tag)
+        if tags_data is  not None:
+            tag_instances = []
+            for tag_title in tags_data:
+                slug = slugify(tag_title)
+                tag, _ = Tag.objects.get_or_create(
+                    slug=slug,
+                    defaults={"name": tag_title}
+                )
+                tag_instances.append(tag)
+
+            post.tags.set(tag_instances)
         
         return post
+    
+    def validate(self, attrs):
+        title = attrs.get("title")
+
+        # If updating and title not provided
+        if not title and self.instance:
+            return attrs
+
+        slug = slugify(title)
+
+        qs = Post.objects.filter(slug=slug)
+
+        # Important: exclude current instance on update
+        if self.instance:
+            qs = qs.exclude(pk=self.instance.pk)
+
+        if qs.exists():
+            raise serializers.ValidationError({
+                "title": "A post with a similar title already exists."
+            })
+
+        attrs["slug"] = slug
+        return attrs

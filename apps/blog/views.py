@@ -4,17 +4,25 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from django.utils import timezone
 from django.db.models import F
-from .models import Post, Tag, Comment, UserPostInteraction
+
+from .models import Post, PostStatus, Tag, Comment, UserPostInteraction, PostInteractionType, Category
 from .serializers import (
     PostSerializer, TagSerializer, CommentSerializer,
-    UserPostInteractionSerializer
+    UserPostInteractionSerializer, CategorySerializer
 )
-
+ 
 # Create your views here.
 
 class TagViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    lookup_field = 'slug'
+
+
+class CategoryViewSet(viewsets.ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     lookup_field = 'slug'
 
@@ -51,9 +59,9 @@ class PostViewSet(viewsets.ModelViewSet):
         status = self.request.query_params.get('status')
         if status:
             queryset = queryset.filter(status=status)
-        else:
-            # By default, show only published posts
-            queryset = queryset.filter(status=Post.PostStatus.PUBLISHED)
+        # else:
+        #     # By default, show only published posts
+        #     queryset = queryset.filter(status=PostStatus.PUBLISHED)
         
         # Filter by deleted status
         deleted = self.request.query_params.get('deleted')
@@ -88,15 +96,15 @@ class PostViewSet(viewsets.ModelViewSet):
         interaction, created = UserPostInteraction.objects.get_or_create(
             user=request.user,
             post=post,
-            defaults={'type': UserPostInteraction.InteractionType.LIKE}
+            defaults={'type': PostInteractionType.LIKE}
         )
         
         if not created:
-            if interaction.type == UserPostInteraction.InteractionType.LIKE:
+            if interaction.type == PostInteractionType.LIKE:
                 interaction.delete()
                 return Response({'status': 'like removed'})
             else:
-                interaction.type = UserPostInteraction.InteractionType.LIKE
+                interaction.type = PostInteractionType.LIKE
                 interaction.save()
         
         return Response({'status': 'liked'})
@@ -107,15 +115,15 @@ class PostViewSet(viewsets.ModelViewSet):
         interaction, created = UserPostInteraction.objects.get_or_create(
             user=request.user,
             post=post,
-            defaults={'type': UserPostInteraction.InteractionType.DISLIKE}
+            defaults={'type': PostInteractionType.DISLIKE}
         )
         
         if not created:
-            if interaction.type == UserPostInteraction.InteractionType.DISLIKE:
+            if interaction.type == PostInteractionType.DISLIKE:
                 interaction.delete()
                 return Response({'status': 'dislike removed'})
             else:
-                interaction.type = UserPostInteraction.InteractionType.DISLIKE
+                interaction.type = PostInteractionType.DISLIKE
                 interaction.save()
         
         return Response({'status': 'disliked'})

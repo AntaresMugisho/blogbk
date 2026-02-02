@@ -4,8 +4,13 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.exceptions import TokenError
+from django.utils.translation import gettext_lazy as _
 
-from .serializers import UserRegistrationSerializer, UserSerializer
+from .serializers import (
+    UserRegistrationSerializer, 
+    UserSerializer,
+    PasswordUpdateSerializer
+)
 from .models import BlacklistedToken
 
 User = get_user_model()
@@ -51,6 +56,24 @@ class LogoutView(APIView):
                 {"detail": "Invalid token"},
                 status=status.HTTP_400_BAD_REQUEST
             )
+
+class PasswordUpdateView(generics.UpdateAPIView):
+    serializer_class = PasswordUpdateSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_object(self):
+        return self.request.user
+
+    def update(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_authenticated = True
+        serializer.is_valid(raise_exception=True)
+        
+        user = self.get_object()
+        user.set_password(serializer.validated_data['new_password'])
+        user.save()
+
+        return Response({"detail": _("Password updated successfully.")}, status=status.HTTP_200_OK)
 
 class RevokeTokenView(APIView):
     permission_classes = (permissions.IsAuthenticated,)

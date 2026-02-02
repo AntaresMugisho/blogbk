@@ -4,6 +4,8 @@ from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from django.db.models import F
 
+from utils import random_filename
+
 User = get_user_model()
 
 
@@ -52,6 +54,7 @@ class Post(models.Model):
     dislikes = models.IntegerField(default=0)
     views = models.IntegerField(default=0)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='posts')
+    image = models.ImageField(upload_to=random_filename, null=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
     tags = models.ManyToManyField(Tag, related_name='posts', blank=True)
     created_at = models.DateTimeField(auto_now_add=True)

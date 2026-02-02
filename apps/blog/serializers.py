@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.utils.text import slugify
-from drf_extra_fields.fields import HybridImageField
+from apps.common.serializers import Base64ImageField
 
 
 from .models import Post, Tag, Comment, Category, UserPostInteraction
@@ -51,13 +51,14 @@ class PostSerializer(serializers.ModelSerializer):
         write_only=True
     )
     category = CategorySerializer(read_only=True)
+    excerpt = serializers.CharField()
     category_id = serializers.PrimaryKeyRelatedField(
         queryset=Category.objects.all(),
         source='category',
         write_only=True
     )
     author_username = serializers.CharField(source='author.username', read_only=True)
-    image = HybridImageField(required=False)
+    image = Base64ImageField(required=False)
     comments = CommentSerializer(many=True, read_only=True)
     comment_count = serializers.IntegerField(source='comments.count', read_only=True)
     status_display = serializers.CharField(source='get_status_display', read_only=True)
@@ -66,7 +67,7 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = [
-            'id', 'title', 'slug', 'content', 'status', 'image', 'status_display',
+            'id', 'title', 'slug', 'content', 'excerpt', 'status', 'image', 'status_display',
             'likes', 'dislikes', 'views', 'category', 'category_id',
             'author', 'author_username', 'tags', 'comments',
             'comment_count', 'created_at', 'updated_at', 'deleted_at',

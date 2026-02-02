@@ -47,6 +47,7 @@ class PostStatus(models.TextChoices):
 
 class Post(models.Model):
     title = models.CharField(max_length=250)
+    excerpt = models.TextField()
     slug = models.SlugField(max_length=250, unique=True)
     content = models.JSONField()
     status = models.CharField(max_length=10, choices=PostStatus.choices, default=PostStatus.DRAFT)

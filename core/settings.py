@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     "apps.accounts",
     "apps.api",
     "apps.blog",
+    "apps.common",
     "apps.chat",
     "apps.website"
 ]

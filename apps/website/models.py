@@ -8,7 +8,9 @@ class Project(models.Model):
     expected_results = models.JSONField(help_text=_("List of expected results"))
     location = models.CharField(max_length=255)
     description = models.TextField()
-    image = models.ImageField(upload_to='projects/', null=True, blank=True)
+    image = models.ImageField(upload_to=random_filename, null=True, blank=True)
+    status = models.CharField(max_length=100, null=True, blank=True)
+    budget = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

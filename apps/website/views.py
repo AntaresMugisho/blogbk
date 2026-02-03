@@ -26,6 +26,4 @@ class OrganisationViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
-        # Allow only one organisation config? Or multiple? 
-        # Usually it's just one, but ViewSet allows multiple.
         return Organisation.objects.all()

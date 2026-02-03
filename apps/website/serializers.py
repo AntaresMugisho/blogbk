@@ -1,12 +1,17 @@
 from rest_framework import serializers
 from .models import Project, GalleryImage, Testimonial, Organisation, Address
+from apps.common.serializers import Base64ImageField
 
 class ProjectSerializer(serializers.ModelSerializer):
+    image = serializers.ImageField(required=False, allow_null=True)
+
     class Meta:
         model = Project
         fields = '__all__'
 
 class GalleryImageSerializer(serializers.ModelSerializer):
+    src = serializers.ImageField()
+
     class Meta:
         model = GalleryImage
         fields = '__all__'

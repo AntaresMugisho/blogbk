@@ -1,4 +1,5 @@
 import os
+from random import random
 
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
@@ -7,6 +8,7 @@ from rest_framework import status
 from django.core.files.storage import default_storage
 from django.conf import settings
 from django.core.mail import send_mail
+from utils import random_filename
 
 from .serializers import ContactSerializer
 
@@ -20,7 +22,7 @@ class FileUploadAPIView(GenericAPIView):
             return Response({"success": False, "error": "No file uploaded."}, status=status.HTTP_400_BAD_REQUEST)
         
         # Save the file manually
-        save_path = default_storage.save(os.path.join('uploads', file_obj.name), file_obj)
+        save_path = default_storage.save(os.path.join('uploads', random_filename(file_obj, file_obj.name)), file_obj)
         file_url = default_storage.url(save_path)
 
         return Response({

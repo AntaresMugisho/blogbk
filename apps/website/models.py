@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from utils import random_filename
 
 class Project(models.Model):
     name = models.CharField(max_length=255)
@@ -14,8 +15,8 @@ class Project(models.Model):
     def __str__(self):
         return self.name
 
-class Gallery(models.Model):
-    image = models.ImageField(upload_to='gallery/')
+class GalleryImage(models.Model):
+    src = models.ImageField(upload_to=random_filename)
     description = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -24,8 +25,8 @@ class Gallery(models.Model):
 
 class Testimonial(models.Model):
     author_name = models.CharField(max_length=255)
-    author_title = models.CharField(max_length=255)
-    author_image = models.ImageField(upload_to='testimonials/', null=True, blank=True)
+    author_role = models.CharField(max_length=255, null=True, blank=True)
+    author_image = models.ImageField(upload_to=random_filename, null=True, blank=True)
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -43,12 +44,15 @@ class Organisation(models.Model):
 
 class Address(models.Model):
     organisation = models.ForeignKey(Organisation, related_name='addresses', on_delete=models.CASCADE)
-    address_line = models.TextField()
+    street = models.CharField(max_length=255)
     city = models.CharField(max_length=100)
+    state = models.CharField(max_length=255)
+    country = models.CharField(max_length=100)
+    zip_code = models.CharField(max_length=20, null=True)
     is_principal = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.address_line}, {self.city}"
+        return f"{self.street}, {self.city}"
 
     def save(self, *args, **kwargs):
         if self.is_principal:

@@ -29,7 +29,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = "__all__"
+        fields = ["id", "email", "first_name", "last_name"]
         read_only_fields = ('id',)
 
 class PasswordUpdateSerializer(serializers.Serializer):

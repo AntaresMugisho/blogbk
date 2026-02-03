@@ -1,7 +1,7 @@
 from rest_framework import viewsets, permissions
-from .models import Project, Gallery, Testimonial, Organisation
+from .models import Project, GalleryImage, Testimonial, Organisation
 from .serializers import (
-    ProjectSerializer, GallerySerializer, 
+    ProjectSerializer, GalleryImageSerializer, 
     TestimonialSerializer, OrganisationSerializer
 )
 
@@ -11,8 +11,8 @@ class ProjectViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 class GalleryViewSet(viewsets.ModelViewSet):
-    queryset = Gallery.objects.all()
-    serializer_class = GallerySerializer
+    queryset = GalleryImage.objects.all()
+    serializer_class = GalleryImageSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 class TestimonialViewSet(viewsets.ModelViewSet):

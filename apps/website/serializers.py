@@ -1,14 +1,14 @@
 from rest_framework import serializers
-from .models import Project, Gallery, Testimonial, Organisation, Address
+from .models import Project, GalleryImage, Testimonial, Organisation, Address
 
 class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
         fields = '__all__'
 
-class GallerySerializer(serializers.ModelSerializer):
+class GalleryImageSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Gallery
+        model = GalleryImage
         fields = '__all__'
 
 class TestimonialSerializer(serializers.ModelSerializer):

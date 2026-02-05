@@ -1,9 +1,9 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
 from django.utils.translation import gettext_lazy as _
-
 from rest_framework import serializers
 
+from apps.common.serializers import Base64ImageField
 User = get_user_model()
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
@@ -27,9 +27,11 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         return user
 
 class UserSerializer(serializers.ModelSerializer):
+    photo = Base64ImageField(required=False)
+    
     class Meta:
         model = User
-        fields = ["id", "email", "first_name", "last_name"]
+        fields = ["id", "email", "first_name", "last_name", "photo", "is_active", "is_superuser"]
         read_only_fields = ('id',)
 
 class PasswordUpdateSerializer(serializers.Serializer):

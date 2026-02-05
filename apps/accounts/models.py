@@ -2,6 +2,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
+from utils import random_filename
 
 
 class Role(models.Model):
@@ -20,7 +21,7 @@ class User(AbstractUser):
     date_of_birth = models.DateField(null=True, blank=True)
     phone_number = models.CharField(max_length=15, blank=True)
     address = models.CharField(max_length=255, blank=True)
-    photo = models.ImageField(upload_to="profiles", null=True, blank=True)
+    photo = models.ImageField(upload_to=random_filename, null=True, blank=True)
     roles = models.ManyToManyField(Role, blank=True)
 
     USERNAME_FIELD = 'email'

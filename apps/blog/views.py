@@ -57,11 +57,11 @@ class PostViewSet(viewsets.ModelViewSet):
         
         # Filter by status
         status = self.request.query_params.get('status')
-        if status:
-            queryset = queryset.filter(status=status)
-        else:
-            # By default, show only published posts
-            queryset = queryset.filter(status=PostStatus.PUBLISHED)
+        # if status:
+        #     queryset = queryset.filter(status=status)
+        # else:
+        #     # By default, show only published posts
+        #     queryset = queryset.filter(status=PostStatus.PUBLISHED)
         
         # Filter by deleted status
         deleted = self.request.query_params.get('deleted')

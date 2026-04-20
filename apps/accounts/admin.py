@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User
+from .models import User, Role
 
 
 class UserAdmin(admin.ModelAdmin):
@@ -7,4 +7,8 @@ class UserAdmin(admin.ModelAdmin):
     list_filter = ('is_staff', 'is_superuser', 'is_active')
     search_fields = ('username', 'email')
 
+class RoleAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+
 admin.site.register(User, UserAdmin)
+admin.site.register(Role, RoleAdmin)

@@ -25,7 +25,7 @@ class User(AbstractUser):
     roles = models.ManyToManyField(Role, blank=True)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['name']
+    REQUIRED_FIELDS = ['username']
 
 
 class BlacklistedToken(models.Model):

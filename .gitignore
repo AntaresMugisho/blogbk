@@ -4,5 +4,8 @@ uploads/
 .adk/
 db.*
 *.db
+*.sqlite
+*.sqlite3
 files/
 
+dev_settings.py

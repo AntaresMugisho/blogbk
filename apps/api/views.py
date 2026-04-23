@@ -43,8 +43,11 @@ class ContactAPIView(GenericAPIView):
         if serializer.is_valid():
             data = serializer.validated_data
 
+            # Use provided subject or default
+            subject = data.get("subject", "Nouveau message de contact")
+            
             send_mail(
-                subject=data["subject"],
+                subject=subject,
                 message=f"""
 Nom: {data['name']}
 Email: {data['email']}
@@ -53,7 +56,7 @@ Message:
 {data['message']}
 """,
                 from_email=settings.DEFAULT_FROM_EMAIL,
-                recipient_list=[settings.DEFAULT_FROM_EMAIL],
+                recipient_list=["contact@cacdiasbl.org"],
                 fail_silently=False,
             )
 
